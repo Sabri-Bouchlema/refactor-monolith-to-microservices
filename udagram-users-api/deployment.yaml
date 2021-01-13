@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-users-api
+  labels:
+    app: udagram-users-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-users-api
+  template:
+    metadata:
+      labels:
+        app: udagram-users-api
+    spec:
+      containers:
+      - name: udagram-users-api
+        image: sabribouchlema/udagram-users-api
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_USERNAME
+          value: <confidential>
+        - name: POSTGRES_PASSWORD
+          value: <confidential>
+        - name: POSTGRES_HOST
+          value: <confidential>
+        - name: POSTGRES_DB
+          value: <confidential>
+        - name: AWS_BUCKET
+          value: <confidential>
+        - name: AWS_REGION
+          value: <confidential>
+        - name: AWS_PROFILE
+          value: <confidential>
+        - name: JWT_SECRET
+          value: <confidential>
+        - name: URL
+          value: <confidential>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-users-api
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: udagram-users-api

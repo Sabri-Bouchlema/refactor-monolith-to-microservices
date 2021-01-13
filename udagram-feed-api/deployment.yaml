@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: udagram-feed-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: udagram-feed-api
+  template:
+    metadata:
+      labels:
+        app: udagram-feed-api
+    spec:
+      containers:
+      - name: udagram-feed-api
+        image: sabribouchlema/udagram-feed-api
+        ports:
+        - containerPort: 8080
+        env:
+        - name: POSTGRES_USERNAME
+          value: <confidential>
+        - name: POSTGRES_PASSWORD
+          value: <confidential>
+        - name: POSTGRES_HOST
+          value: <confidential>
+        - name: POSTGRES_DB
+          value: <confidential>
+        - name: AWS_BUCKET
+          value: <confidential>
+        - name: AWS_REGION
+          value: <confidential>
+        - name: AWS_PROFILE
+          value: <confidential>
+        - name: JWT_SECRET
+          value: <confidential>
+        - name: URL
+          value: <confidential>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: udagram-feed-api
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: udagram-feed-api
